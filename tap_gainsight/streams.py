@@ -8,55 +8,18 @@ from singer_sdk import typing as th  # JSON Schema typing helpers
 from tap_gainsight.client import GainsightStream
 
 # TODO: Delete this is if not using json files for schema definition
-SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
-# TODO: - Override `UsersStream` and `GroupsStream` with your own stream definition.
-#       - Copy-paste as many times as needed to create multiple stream types.
+# SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
 
-class UsersStream(GainsightStream):
-    """Define custom stream."""
-    name = "users"
-    path = "/users"
-    primary_keys = ["id"]
-    replication_key = None
+class ClientsStream(GainsightStream):
+    """Stream to retrieve client info"""
+
+    name = "clients"
+    path = "v1/data/objects/query/Company"
+    primary_keys = ["Gsid"]
+
     # Optionally, you may also use `schema_filepath` in place of `schema`:
     # schema_filepath = SCHEMAS_DIR / "users.json"
     schema = th.PropertiesList(
-        th.Property("name", th.StringType),
-        th.Property(
-            "id",
-            th.StringType,
-            description="The user's system ID"
-        ),
-        th.Property(
-            "age",
-            th.IntegerType,
-            description="The user's age in years"
-        ),
-        th.Property(
-            "email",
-            th.StringType,
-            description="The user's email address"
-        ),
-        th.Property("street", th.StringType),
-        th.Property("city", th.StringType),
-        th.Property(
-            "state",
-            th.StringType,
-            description="State name in ISO 3166-2 format"
-        ),
-        th.Property("zip", th.StringType),
-    ).to_dict()
-
-
-class GroupsStream(GainsightStream):
-    """Define custom stream."""
-    name = "groups"
-    path = "/groups"
-    primary_keys = ["id"]
-    replication_key = "modified"
-    schema = th.PropertiesList(
-        th.Property("name", th.StringType),
-        th.Property("id", th.StringType),
-        th.Property("modified", th.DateTimeType),
+        th.Property("Gsid", th.StringType, description="The client's system ID"),
     ).to_dict()
