@@ -30,10 +30,7 @@ class GainsightStream(RESTStream):
     def authenticator(self) -> APIKeyAuthenticator:
         """Return a new authenticator object."""
         return APIKeyAuthenticator.create_for_stream(
-            self,
-            key="x-api-key",
-            value=self.config.get("api_key"),
-            location="header"
+            self, key="Accesskey", value=self.config.get("api_key"), location="header"
         )
 
     @property
